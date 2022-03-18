@@ -7,7 +7,7 @@ data:
     #!/bin/bash
 
     set -e
-    timestamp=$(date +%F)
+    timestamp=$(date '+%Y-%m-%d')
     function createBackup()
     {
       openstack rds backup create --description "backup from {{ .Values.otcrds.name }}" --wait {{ .Release.Name }}-{{ .Values.otcrds.name }}-$timestamp {{ .Values.otcrds.id }}
