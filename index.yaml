@@ -10,4 +10,13 @@ entries:
     urls:
     - https://github.com/iits-consulting/automated-manual-rds-backup-chart/releases/download/automated-manual-rds-backup-1.0.1/automated-manual-rds-backup-1.0.1.tgz
     version: 1.0.1
-generated: "2022-03-18T16:17:50.486464715Z"
+  - apiVersion: v2
+    created: "2022-03-18T16:37:06.853402354Z"
+    description: A Helm chart to periodically created autmated manual rds backups
+      on otc.
+    digest: 6ebaef53e17276c664c3297111ed9bfb51c0d44a899b77404c87f441da104e1a
+    name: automated-manual-rds-backup
+    urls:
+    - https://github.com/iits-consulting/automated-manual-rds-backup-chart/releases/download/automated-manual-rds-backup-1.0.0/automated-manual-rds-backup-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-03-18T16:37:06.853416654Z"
