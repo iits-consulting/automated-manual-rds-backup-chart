@@ -1,0 +1,46 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cronjob
+  labels:
+    app: {{ .Values.otcextension.name }}
+    job: {{ .Release.Name }}-cronjob
+spec:
+  schedule: {{.Values.schedule | quote}}
+  successfulJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      name: {{ .Release.Name }}-cronjob
+      labels:
+        job: {{ .Release.Name }}-cronjob
+        app: {{ .Release.Name }}
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          name: {{ .Release.Name }}
+          labels:
+            app: {{ .Release.Name }}
+            job: {{ .Release.Name }}{{ .Release.Name }}-cronjob
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: {{  .Release.Name }}
+              image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+              imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
+              env:
+                {{- range $key, $val := .Values.otcextension.env }}
+                - name: {{ $key }}
+                  value: {{ $val | quote }}
+                {{- end }}
+              args: [ "sh", "-c", "/opt/create-manual-backup.sh" ]
+              volumeMounts:
+                - name: {{.Release.Name}}-script
+                  mountPath: "/opt/"
+          volumes:
+            - name: {{.Release.Name}}-script
+              configMap:
+                name: automated-manual-backup-script
+                defaultMode: 0777

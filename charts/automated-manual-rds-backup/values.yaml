@@ -1,0 +1,28 @@
+schedule: "0 3 * * *"
+# one hour timeout
+activeDeadlineSeconds: 1000
+image:
+  repository: iits/python-otcextension
+  tag: 0.26.0
+  pullPolicy: IfNotPresent
+otcrds:
+  # ID and Name of the database which of you want manual backups
+  name:
+  id:
+otcextension:
+  name: python-otcextensions
+  env:
+    # Theses are the necessary settings for authentication on OTC
+    OS_USERNAME: "TAKEN_FROM_VAULT"
+    OS_PASSWORD: "TAKEN_FROM_VAULT"
+    OS_PROJECT_NAME:
+    OS_USER_DOMAIN_NAME:
+    OS_TENANT_NAME:
+    OS_AUTH_URL:
+    # Dont change the following if you dont know you are doing!
+    OS_IMAGE_API_VERSION: 2
+    OS_IDENTITY_API_VERSION: 3
+    OS_VOLUME_API_VERSION: 3
+    OS_ENDPOINT_TYPE: publicURL
+    CINDER_ENDPOINT_TYPE: publicURL
+    NOVA_ENDPOINT_TYPE: publicURL

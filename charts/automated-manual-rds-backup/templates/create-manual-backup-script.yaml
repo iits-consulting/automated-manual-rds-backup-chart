@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: automated-manual-rds-backup-script
+data:
+  create-manual-backup.sh: |
+    #!/bin/bash
+
+    set -e
+    timestamp=$(date +%F)
+    function createBackup()
+    {
+      openstack rds backup create --description "backup from {{ .Values.otcrds.name }}" --wait {{ .Release.Name }}-{{ .Values.otcrds.name }}-$timestamp {{ .Values.otcrds.id }}
+    }
+
+    echo "Starting to create a manual backup of Database {{ .Values.otcrds.name }}"
+    echo "Timestamp $timestamp"
+    createBackup
