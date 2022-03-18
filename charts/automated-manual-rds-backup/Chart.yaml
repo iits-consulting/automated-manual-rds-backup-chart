@@ -1,4 +1,4 @@
 apiVersion: v2
 name: automated-manual-rds-backup
 description: A Helm chart to periodically created autmated manual rds backups on otc.
-version: 1.0.1
+version: 1.0.0
