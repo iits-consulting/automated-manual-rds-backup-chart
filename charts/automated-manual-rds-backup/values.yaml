@@ -19,7 +19,7 @@ otcextension:
     OS_USER_DOMAIN_NAME:
     OS_TENANT_NAME:
     OS_AUTH_URL:
-    # Dont change the following if you dont know you are doing!
+    # Dont change the following without considering the otc doc!
     OS_IMAGE_API_VERSION: 2
     OS_IDENTITY_API_VERSION: 3
     OS_VOLUME_API_VERSION: 3
