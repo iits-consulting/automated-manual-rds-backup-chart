@@ -10,7 +10,7 @@ data:
     timestamp=$(date '+%Y-%m-%d')
     function createBackup()
     {
-      openstack rds backup create --description "backup from {{ .Values.otcrds.name }}" --wait {{ .Release.Name }}-{{ .Values.otcrds.name }}-$timestamp {{ .Values.otcrds.id }}
+      openstack rds backup create --description "backup from {{ .Values.otcrds.name }}-$timestamp" --wait {{ .Release.Name }}-{{ .Values.otcrds.name }}-$timestamp {{ .Values.otcrds.id }}
     }
 
     echo "Starting to create a manual backup of Database {{ .Values.otcrds.name }}"
