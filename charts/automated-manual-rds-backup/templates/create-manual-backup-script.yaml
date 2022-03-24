@@ -27,7 +27,7 @@ data:
         if [ $error -ne 0 ]; then
           exit 1
         fi
-        sleep 15
+        sleep 30
         echo -n -e "\e[0K\r"
       done
       echo -e "Finished with manual rds backup of db: {{ .Values.otcrds.name }}"
