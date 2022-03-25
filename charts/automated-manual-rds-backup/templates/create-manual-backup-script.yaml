@@ -17,9 +17,9 @@ data:
       if [ -z $size ]; then
         exit 1
       fi
+      echo "Creating Backup {{ .Values.otcRDS.name }}-$timestamp in progress..."
       while [[ $size -eq 0 ]]
       do
-        echo "Creating Backup {{ .Values.otcRDS.name }}-$timestamp in progress..."
         size=""
         size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
         if [ -z $size ]; then
