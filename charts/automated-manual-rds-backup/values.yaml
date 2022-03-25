@@ -5,20 +5,20 @@ image:
   repository: iits/python-otcextension
   tag: 0.26.0
   pullPolicy: IfNotPresent
-otcrds:
+otcRDS:
   # ID and Name of the database which of you want manual backups
   name:
   id:
-otcextension:
+otcExtension:
   name: python-otcextensions
   env:
     # Theses are the necessary settings for authentication on OTC
     OS_USERNAME: "TAKEN_FROM_VAULT"
     OS_PASSWORD: "TAKEN_FROM_VAULT"
-    OS_PROJECT_NAME:
-    OS_USER_DOMAIN_NAME:
-    OS_TENANT_NAME:
-    OS_AUTH_URL:
+    OS_PROJECT_NAME: eu-de
+    OS_USER_DOMAIN_NAME: OTC-EU-DE-0000000000X0000XXXXX
+    OS_TENANT_NAME: eu-de
+    OS_AUTH_URL: https://iam.eu-de.otc.t-systems.com:443/v3
     # Dont change the following without considering the otc doc!
     OS_IMAGE_API_VERSION: 2
     OS_IDENTITY_API_VERSION: 3

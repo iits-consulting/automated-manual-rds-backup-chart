@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cronjob
   labels:
-    app: {{ .Values.otcextension.name }}
+    app: {{ .Values.otcExtension.name }}
     job: {{ .Release.Name }}-cronjob
 spec:
   schedule: {{.Values.schedule | quote}}
@@ -32,7 +32,7 @@ spec:
               image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
               imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
               env:
-                {{- range $key, $val := .Values.otcextension.env }}
+                {{- range $key, $val := .Values.otcExtension.env }}
                 - name: {{ $key }}
                   value: {{ $val | quote }}
                 {{- end }}
