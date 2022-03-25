@@ -19,15 +19,14 @@ data:
       fi
       while [[ $size -eq 0 ]]
       do
-        echo -n "Creating Backup {{ .Values.otcRDS.name }}-$timestamp in progress..."
+        echo "Creating Backup {{ .Values.otcRDS.name }}-$timestamp in progress..."
         size=""
         size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
         if [ -z $size ]; then
           exit 1
         fi
         sleep 15
-        echo -n -e "\e[0K\r"
       done
-      echo -e "Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
+      echo "Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
     }
     createBackup
