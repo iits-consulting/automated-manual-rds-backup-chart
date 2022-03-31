@@ -1,3 +1,4 @@
+# This will schedule at 05:00 CEST everyday
 schedule: "0 3 * * *"
 # one hour timeout
 activeDeadlineSeconds: 1000
@@ -18,8 +19,8 @@ otcExtension:
     OS_PROJECT_NAME: eu-de
     OS_USER_DOMAIN_NAME: OTC-EU-DE-0000000000X0000XXXXX
     OS_TENANT_NAME: eu-de
+    # Don't change the following without considering the otc doc!
     OS_AUTH_URL: https://iam.eu-de.otc.t-systems.com:443/v3
-    # Dont change the following without considering the otc doc!
     OS_IMAGE_API_VERSION: 2
     OS_IDENTITY_API_VERSION: 3
     OS_VOLUME_API_VERSION: 3

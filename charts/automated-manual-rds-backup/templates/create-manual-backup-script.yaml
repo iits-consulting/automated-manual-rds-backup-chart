@@ -5,22 +5,19 @@ metadata:
 data:
   create-manual-backup.sh: |
     #!/bin/bash
-    timestamp=$(date +%F)
+    datestamp=$(date +%F)
     function createBackup()
     {
-      sec=$(( $RANDOM % 20 + 1 ))
-      echo "Sleep $sec before start..."
-      sleep $sec
-      echo "Starting to create a auto manual backup of rds {{ .Values.otcRDS.name }}"
-      rds_backup_id=$(openstack rds backup create --description "backup from {{ .Values.otcRDS.name }}-$timestamp" "{{ .Release.Name }}-{{ .Values.otcRDS.name }}-$timestamp" {{ .Values.otcRDS.id }} -f json | jq --raw-output '.id' )
+      echo "[$(date +%T)] Starting to create a auto manual backup of rds {{ .Values.otcRDS.name }} "
+      rds_backup_id=$(openstack rdtimestampcreatetimestampption "backup from {{ .Values.otcRDS.name }}-$datestamp" "{{ .Release.Name }}-{{ .Values.otcRDS.name }}-$datestamp" {{ .Values.otcRDS.id }} -f json | jq --raw-output '.id' )
       if [ -z $rds_backup_id ]; then
           exit 1
       fi
-      size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
+      size=$(openstack rds btimestampt --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
       if [ -z $size ]; then
         exit 1
       fi
-      echo "Creating Backup {{ .Values.otcRDS.name }}-$timestamp in progress..."
+      echo "Creating Backup {{ .Values.otcRDS.name }}-$datestamp in progress..."
       while [[ $size -eq 0 ]]
       do
         size=""
@@ -30,6 +27,6 @@ data:
         fi
         sleep 15
       done
-      echo "Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
+      echo "[$(date +%T)] Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
     }
     createBackup
