@@ -8,6 +8,9 @@ data:
     timestamp=$(date +%F)
     function createBackup()
     {
+      sec=$(( $RANDOM % 20 + 1 ))
+      echo "Sleep $sec before start..."
+      sleep $sec
       echo "Starting to create a auto manual backup of rds {{ .Values.otcRDS.name }}"
       rds_backup_id=$(openstack rds backup create --description "backup from {{ .Values.otcRDS.name }}-$timestamp" "{{ .Release.Name }}-{{ .Values.otcRDS.name }}-$timestamp" {{ .Values.otcRDS.id }} -f json | jq --raw-output '.id' )
       if [ -z $rds_backup_id ]; then
