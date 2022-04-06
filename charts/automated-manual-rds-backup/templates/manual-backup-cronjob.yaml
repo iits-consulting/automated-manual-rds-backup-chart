@@ -9,7 +9,7 @@ spec:
   schedule: {{.Values.schedule | quote}}
   successfulJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
-  failedJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
   jobTemplate:
     metadata:
       name: {{ .Release.Name }}-cronjob
@@ -18,7 +18,7 @@ spec:
         app: {{ .Release.Name }}
     spec:
       activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds | default 2700  }}
-      backoffLimit: 0
+      backoffLimit: 1
       template:
         metadata:
           name: {{ .Release.Name }}

@@ -24,7 +24,7 @@ data:
       if [ -z $size ]; then
         exit 1
       fi
-      echo "Creating Backup {{ .Values.otcRDS.name }}-$datestamp in progress..."
+      echo " Creating Backup {{ .Values.otcRDS.name }}-$datestamp in progress..."
       while [[ $size -eq 0 ]]
       do
         size=""
