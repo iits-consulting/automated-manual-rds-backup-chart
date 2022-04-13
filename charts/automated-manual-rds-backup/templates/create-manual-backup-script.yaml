@@ -14,21 +14,18 @@ data:
         openstack rds backup create \
           --description "backup from {{ .Values.otcRDS.name }}-$datestamp" \
           "{{ .Release.Name }}-{{ .Values.otcRDS.name }}-$datestamp" \
-          {{ .Values.otcRDS.id }} -f json | \
+          {{ .Values.otcRDS.name }} -f json | \
           jq --raw-output '.id'
       )
       if [ -z $rds_backup_id ]; then
           exit 1
       fi
-      size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
-      if [ -z $size ]; then
-        exit 1
-      fi
+
       echo " Creating Backup {{ .Values.otcRDS.name }}-$datestamp in progress..."
+      size=0
       while [[ $size -eq 0 ]]
       do
-        size=""
-        size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.id }} -f json | jq --raw-output '.[] | ."Size (KB)"')
+        size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.name }} -f json | jq --raw-output '.[] | ."Size (KB)"')
         if [ -z $size ]; then
           exit 1
         fi
