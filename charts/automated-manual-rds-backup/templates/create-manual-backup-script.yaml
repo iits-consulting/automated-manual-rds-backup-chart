@@ -37,7 +37,7 @@ data:
     function keepOnlyLastNBackups() {
       num_backups_to_keep="$1"
     
-      # seems to remove with offset the newest three backups. Not influenced by sorting
+      # seems to remove with offset the newest N backups. Not influenced by sorting
       openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "{{ .Values.otcRDS.name }}" | \
         jq '.[].ID' | \
         xargs -I % sh -c 'echo "[$(date +%T)] Removing backup with id % on {{ .Values.otcRDS.name }}"; rds backup delete %'
