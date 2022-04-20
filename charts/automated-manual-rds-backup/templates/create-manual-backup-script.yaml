@@ -32,10 +32,6 @@ data:
         sleep 15
       done
       echo "[$(date +%T)] Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
-    
-    openstack rds backup list --backup-type="manual" --offset=3 --format=json "$INSTANCE" | \
-      jq '.[].ID' | \
-      xargs -I '{}' echo "Removing backup with id {}'
     }
     
     function keepOnlyLastNBackups() {
