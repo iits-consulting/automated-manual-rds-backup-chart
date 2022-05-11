@@ -44,4 +44,4 @@ data:
     }
     
     createBackup
-    keepOnlyLastNBackups 3
+    keepOnlyLastNBackups {{ .Values.keepDays }}
