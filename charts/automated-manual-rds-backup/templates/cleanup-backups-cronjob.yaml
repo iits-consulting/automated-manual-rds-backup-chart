@@ -24,7 +24,7 @@ spec:
           name: {{ .Release.Name }}-cleanup
           labels:
             app: {{ .Release.Name }}-cleanup
-            job: {{ .Release.Name }}-cleanup{{ .Release.Name }}-cleanup-cronjob
+            job: {{ .Release.Name }}-pod-cleanup-cronjob
         spec:
           restartPolicy: Never
           containers:
