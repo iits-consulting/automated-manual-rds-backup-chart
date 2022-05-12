@@ -43,5 +43,5 @@ spec:
           volumes:
             - name: {{.Release.Name}}-script
               configMap:
-                name: automated-manual-rds-backup-script
+                name: rds-backup-scripts
                 defaultMode: 0777
