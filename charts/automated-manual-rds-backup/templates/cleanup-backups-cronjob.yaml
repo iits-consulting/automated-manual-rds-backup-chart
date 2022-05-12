@@ -36,7 +36,7 @@ spec:
                 - name: {{ $key }}
                   value: {{ $val | quote }}
                 {{- end }}
-              args: [ "/bin/bash", "/opt/create-manual-backup.sh" ]
+              args: [ "/bin/bash", "/opt/cleanup-manual-backups.sh" ]
               volumeMounts:
                 - name: {{.Release.Name}}-script
                   mountPath: "/opt/"

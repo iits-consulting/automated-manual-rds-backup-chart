@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: automated-manual-rds-backup-script
+  name: rds-backup-scripts
 data:
   create-manual-backup.sh: |
     #!/bin/bash
@@ -33,7 +33,9 @@ data:
       done
       echo "[$(date +%T)] Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
     }
-    
+    createBackup
+
+  cleanup-manual-backups.sh: |
     function keepOnlyLastNBackups() {
       num_backups_to_keep="$1"
     
@@ -43,5 +45,4 @@ data:
         xargs -I %% sh -c 'echo "[$(date +%T)] Removing backup with id %% on {{ .Values.otcRDS.name }}"; openstack rds backup delete %%'
     }
     
-    createBackup
     keepOnlyLastNBackups {{ .Values.keepDays }}
