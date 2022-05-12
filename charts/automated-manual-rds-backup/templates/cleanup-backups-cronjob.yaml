@@ -1,10 +1,10 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ .Release.Name }}-cronjob
+  name: {{ .Release.Name }}-cleanup-cronjob
   labels:
     app: {{ .Values.otcExtension.name }}
-    job: {{ .Release.Name }}-cronjob
+    job: {{ .Release.Name }}-cleanup-cronjob
 spec:
   schedule: {{.Values.schedule | quote}}
   successfulJobsHistoryLimit: 3
@@ -12,19 +12,19 @@ spec:
   failedJobsHistoryLimit: 2
   jobTemplate:
     metadata:
-      name: {{ .Release.Name }}-cronjob
+      name: {{ .Release.Name }}-cleanup-cronjob
       labels:
-        job: {{ .Release.Name }}-cronjob
-        app: {{ .Release.Name }}
+        job: {{ .Release.Name }}-cleanup-cronjob
+        app: {{ .Release.Name }}-cleanup
     spec:
       activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds | default 2700  }}
       backoffLimit: 1
       template:
         metadata:
-          name: {{ .Release.Name }}
+          name: {{ .Release.Name }}-cleanup
           labels:
-            app: {{ .Release.Name }}
-            job: {{ .Release.Name }}{{ .Release.Name }}-cronjob
+            app: {{ .Release.Name }}-cleanup
+            job: {{ .Release.Name }}-cleanup{{ .Release.Name }}-cleanup-cronjob
         spec:
           restartPolicy: Never
           containers:
