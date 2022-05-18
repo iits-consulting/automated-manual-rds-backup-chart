@@ -3,10 +3,10 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cronjob
   labels:
-    app: {{ .Values.otcExtension.name }}
+    app: {{ .Values.otcRDS.name }}-cronjob
     job: {{ .Release.Name }}-cronjob
 spec:
-  schedule: {{.Values.schedule | quote}}
+  schedule: {{.Values.backup.schedule | quote}}
   successfulJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 2

@@ -3,10 +3,10 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cleanup-cronjob
   labels:
-    app: {{ .Values.otcExtension.name }}
+    app: {{ .Values.otcRDS.name }}-cleanup-cronjob
     job: {{ .Release.Name }}-cleanup-cronjob
 spec:
-  schedule: {{.Values.schedule | quote}}
+  schedule: {{.Values.cleanup.schedule | quote}}
   successfulJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 2
