@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cronjob
   labels:
-    app: {{ .Values.otcRDS.name }}-cronjob
+    app: {{ .Values.otcRDS.stage}}-cronjob
     job: {{ .Release.Name }}-cronjob
 spec:
   schedule: {{.Values.backup.schedule | quote}}
