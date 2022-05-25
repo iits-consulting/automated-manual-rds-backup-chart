@@ -14,7 +14,11 @@ image:
   pullPolicy: IfNotPresent
 otcRDS:
   # Name of the database which of you want manual backups
-  name:
+  names:
+  # examples:
+  # - one_otc_rds_db
+  # - another_otc_rds_db
+  # - even_more_otc_rds_db
 otcExtension:
   env:
     # Theses are the necessary settings for authentication on OTC

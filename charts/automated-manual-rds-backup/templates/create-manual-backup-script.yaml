@@ -8,41 +8,63 @@ data:
     datestamp=$(date +%F)
     function createBackup()
     {
-      echo "[$(date +%T)] Starting to create a auto manual backup of rds {{ .Values.otcRDS.name }} "
+      if [ -z $1 ]; then
+        echo "[$(date +%T)] No database name provided. Exiting function."
+        return 1
+      fi
+
+      database_name="$1"
+      echo "[$(date +%T)] Starting to create a auto manual backup of rds $database_name "
 
       rds_backup_id=$(
         openstack rds backup create \
-          --description "backup from {{ .Values.otcRDS.name }}-$datestamp" \
-          "{{ .Release.Name }}-{{ .Values.otcRDS.name }}-$datestamp" \
-          {{ .Values.otcRDS.name }} -f json | \
+          --description "backup from $database_name-$datestamp" \
+          "{{ .Release.Name }}-$database_name-$datestamp" \
+          $database_name -f json | \
           jq --raw-output '.id'
       )
       if [ -z $rds_backup_id ]; then
           exit 1
       fi
 
-      echo " Creating Backup {{ .Values.otcRDS.name }}-$datestamp in progress..."
+      echo " Creating Backup $database_name-$datestamp in progress..."
       size=0
       while [[ $size -eq 0 ]]
       do
-        size=$(openstack rds backup list --backup-id $rds_backup_id {{ .Values.otcRDS.name }} -f json | jq --raw-output '.[] | ."Size (KB)"')
+        size=$(openstack rds backup list --backup-id $rds_backup_id $database_name -f json | jq --raw-output '.[] | ."Size (KB)"')
         if [ -z $size ]; then
           exit 1
         fi
         sleep 15
       done
-      echo "[$(date +%T)] Finished with manual rds backup of db: {{ .Values.otcRDS.name }}"
+      echo "[$(date +%T)] Finished with manual rds backup of db: $database_name"
     }
-    createBackup
+
+    for var in "$@"
+    do
+      createBackup "$var"
+    done
 
   cleanup-manual-backups.sh: |
     function keepOnlyLastNBackups() {
-      num_backups_to_keep="$1"
+      database_name="$1"
+      num_backups_to_keep="$2"
     
       # seems to remove with offset the newest N backups. Not influenced by sorting
-      openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "{{ .Values.otcRDS.name }}" | \
+      openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "$database_name" | \
         jq '.[].ID' | \
         xargs -I %% sh -c 'echo "[$(date +%T)] Removing backup with id %% on {{ .Values.otcRDS.name }}"; openstack rds backup delete %%'
+
+      backupIds=$(openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "$database_name" | jq '.[].ID')
+      while read -r backupId
+      do
+        echo "[$(date +%T)] Removing backup with id $backupId on $database_name"
+        openstack rds backup delete "$backupId"
+      done
     }
+
+    for var in "$@"
+    do
+      keepOnlyLastNBackups "$var" {{ .Values.keepDays }}
+    done
     
-    keepOnlyLastNBackups {{ .Values.keepDays }}

@@ -36,7 +36,12 @@ spec:
                 - name: {{ $key }}
                   value: {{ $val | quote }}
                 {{- end }}
-              args: [ "/bin/bash", "/opt/create-manual-backup.sh" ]
+              args:
+                - "/bin/bash"
+                - "/opt/create-manual-backup.sh"
+              {{- range $databaseName := .Values.otcRDS.names }}
+                - "{{ $databaseName }}"
+              {{- end }}
               volumeMounts:
                 - name: {{.Release.Name}}-script
                   mountPath: "/opt/"
