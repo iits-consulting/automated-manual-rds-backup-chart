@@ -1,9 +1,9 @@
 # This will schedule the backup at 05:00 CEST everyday
 backup:
-  schedule: "0 3 * * *"
+  schedule: "0 4 * * *"
 # This will schedule the cleanup at 06:00 CEST everyday (do the cleanup always after the backup)
 cleanup:
-  schedule: "0 4 * * *"
+  schedule: "0 5 * * *"
 # one hour timeout
 activeDeadlineSeconds: 1000
 # Number of most recent backups to keep (one backup per day is created); 3 is example/default number of days

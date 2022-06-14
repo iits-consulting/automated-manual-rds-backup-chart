@@ -31,7 +31,7 @@ data:
       size=0
       while [[ $size -eq 0 ]]
       do
-        size=$(openstack rds backup list --backup-id $rds_backup_id $database_name -f json | jq --raw-output '.[] | ."Size (KB)"')
+        size=$(openstack rds backup list --backup-id $rds_backup_id $database_name -f json | jq -r '.[] | ."Size (KB)"')
         if [ -z $size ]; then
           exit 1
         fi
@@ -50,7 +50,7 @@ data:
       database_name="$1"
       num_backups_to_keep="$2"
     
-      backupIds=$(openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "$database_name" | jq '.[].ID')
+      backupIds=$(openstack rds backup list --backup-type="manual" --offset="$num_backups_to_keep" --format=json "$database_name" | jq -r '.[].ID')
       while read -r backupId
       do
         echo "[$(date +%T)] Removing backup with id $backupId on $database_name"
