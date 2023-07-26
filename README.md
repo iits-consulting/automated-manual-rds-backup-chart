@@ -1,3 +1,7 @@
+# Deprecated
+
+OTC implemented this feature
+
 ## Usage
 This is a helm charts which can be deployed to create automatically manual rds backups on otc via a cronjob.
 
